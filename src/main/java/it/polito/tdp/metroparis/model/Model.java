@@ -107,6 +107,8 @@ public class Model {
 		return visita;
 	}
 	
+	// ritorna una mappa del tipo
+	// <nuovo vertice scoperto, vertice da cui l'ho scoperto>
 	public Map<Fermata, Fermata> alberoVisita(Fermata source){
 		Map<Fermata, Fermata> albero = new HashMap<>();
 		albero.put(source, null);
@@ -127,10 +129,10 @@ public class Model {
 				Fermata b = graph.getEdgeTarget(edge);
 				if(albero.containsKey(a) && !albero.containsKey(b)) {
 					// a è già noto, quindi ho scoperto b provenendo da a
-					albero.put(a, b);
+					albero.put(b, a);
 				} else if(albero.containsKey(b) && !albero.containsKey(a)) {
 					// b è già noto, quindi ho scoperto a provenendo da b
-					albero.put(b, a);
+					albero.put(a, b);
 				}
 				
 			}
@@ -159,7 +161,7 @@ public class Model {
 	}
 		
 	public List<Fermata> camminiMinimi(Fermata partenza, Fermata arrivo) {
-		DijkstraShortestPath<Fermata, DefaultEdge> dij = new DijkstraShortestPath(graph);
+		DijkstraShortestPath<Fermata, DefaultEdge> dij = new DijkstraShortestPath<>(graph);
 		GraphPath<Fermata, DefaultEdge> cammino = dij.getPath(partenza, arrivo);
 		return cammino.getVertexList();
 	}
